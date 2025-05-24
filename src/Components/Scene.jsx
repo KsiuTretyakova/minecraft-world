@@ -1,9 +1,19 @@
 import { OrbitControls } from "@react-three/drei";
 import Ground from "./Ground";
+// import { useState } from "react";
+import Block from "./Block";
 
-export default function Scene() {
+export default function Scene({ blocks, setBlocks, setSelectedBlock }) {
+    
 
-    const handleAddBlock = ();
+    const handleAddBlock = (position) => {
+        const key = position.join(', ');
+        if (!blocks.some((b) => b.join(', ') === key)) {
+            setBlocks((prev) => [...prev, position]);
+        }
+        
+    };
+
 
     return (
         <>
@@ -18,6 +28,13 @@ export default function Scene() {
         </mesh> */}
 
         <Ground onAddBlock={handleAddBlock} />
+
+        {blocks.map((pos, idx) => (
+            <Block key={idx} position={pos} 
+            onClick={handleAddBlock} 
+            onRemove={setSelectedBlock} />
+        ))}
+
         </>
     );
 }
